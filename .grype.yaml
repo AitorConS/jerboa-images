@@ -1,0 +1,12 @@
+# Vulnerabilities grype matches by name that do not apply to these images.
+# scripts/scan.sh runs from the repository root, where grype reads this file.
+ignore:
+# Debian and Ubuntu's redis packages loaded Lua dynamically, escaping its
+# sandbox; upstream redis, which Jerboa's package is built from, embeds Lua.
+- vulnerability: CVE-2022-0543
+  package:
+    name: redis
+# The unofficial Windows port of redis (tporadowski/redis).
+- vulnerability: CVE-2022-3734
+  package:
+    name: redis
