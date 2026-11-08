@@ -1,0 +1,19 @@
+# Caddy from Jerboa's first-party package index, for linux/amd64 and
+# linux/arm64, running the Caddyfile in rootfs/.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["caddy:2.7.6"]
+dirs = ["/data", "/config"]
+
+[program]
+path = "caddy"
+args = ["run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
+
+[env]
+XDG_DATA_HOME = "/data"
+XDG_CONFIG_HOME = "/config"
+
+[run]
+memory = "256M"

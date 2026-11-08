@@ -1,0 +1,123 @@
+name: Publish
+# Builds every image under images/ for linux/amd64 and linux/arm64, boots
+# the host's platform and checks that it answers, and on main publishes them
+# to jerboa/<name> on registry.jerboa.dev. The registry trusts this workflow
+# on main (a trusted publisher of the jerboa namespace): it pushes with the
+# job's OIDC token, no stored credential, and every push is signed with
+# Sigstore. Pull requests only build and test.
+#
+# The weekly run picks up new package and toolset builds; images whose disk
+# did not change are not pushed again (scripts/publish.sh).
+'on':
+  push:
+    branches:
+    - main
+  pull_request:
+  schedule:
+  - cron: '23 4 * * 1'
+  workflow_dispatch:
+    inputs:
+      image:
+        description: Image to build (a directory under images/), or all
+        type: string
+        default: all
+      jerboa_ref:
+        description: Branch, tag or commit of AitorConS/jerboa to build the CLI and daemon from
+        type: string
+        default: main
+      publish:
+        description: Publish (on main only)
+        type: boolean
+        default: true
+permissions:
+  contents: read
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+env:
+  # The release the runner installs first, for its daemon service, toolset
+  # and hypervisor; the CLI and daemon are then replaced by builds of
+  # JERBOA_REF, which have what this pipeline needs before it is released.
+  JERBOA_RELEASE: 0.56.0
+  JERBOA_REF: ${{ inputs.jerboa_ref || 'main' }}
+jobs:
+  list:
+    name: Images
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      images: ${{ steps.list.outputs.images }}
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - id: list
+      env:
+        IMAGE: ${{ inputs.image || 'all' }}
+      run: |
+        if [ "${IMAGE}" = all ]; then
+          images="$(find images -mindepth 2 -maxdepth 2 -name image.env -printf '%h\n' | xargs -n1 basename | sort | jq -R . | jq -sc .)"
+        else
+          [ -f "images/${IMAGE}/image.env" ] || { echo "::error::no image ${IMAGE}"; exit 1; }
+          images="$(jq -nc --arg i "${IMAGE}" '[$i]')"
+        fi
+        echo "images=${images}" >> "${GITHUB_OUTPUT}"
+  image:
+    name: ${{ matrix.image }}
+    needs: list
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      # Pushing as the registry's trusted publisher, and signing with Sigstore.
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        image: ${{ fromJSON(needs.list.outputs.images) }}
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - name: Let the runner use KVM
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
+    - uses: AitorConS/jerboa/.github/actions/setup-jerboa@57cf12cb5577671a4a80e5275dab993dd76791ed
+      with:
+        version: ${{ env.JERBOA_RELEASE }}
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        repository: AitorConS/jerboa
+        ref: ${{ env.JERBOA_REF }}
+        persist-credentials: false
+        path: jerboa-src
+    - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+      with:
+        go-version-file: jerboa-src/go.mod
+        cache-dependency-path: jerboa-src/go.sum
+    - name: Replace the CLI and daemon with builds of ${{ env.JERBOA_REF }}
+      working-directory: jerboa-src
+      run: |
+        commit="$(git rev-parse HEAD)"
+        go build -trimpath -ldflags "-X main.version=${commit:0:12}" -o "${RUNNER_TEMP}/jerboa" ./cmd/jerboa
+        go build -trimpath -ldflags "-X main.version=${commit:0:12}" -o "${RUNNER_TEMP}/jerboad" ./cmd/jerboad
+        sudo install -m 0755 "${RUNNER_TEMP}/jerboa" "${RUNNER_TEMP}/jerboad" /usr/local/bin/
+        sudo systemctl restart jerboad
+        for _ in $(seq 1 30); do jerboa images >/dev/null 2>&1 && break; sleep 1; done
+        jerboa version
+        echo "Built AitorConS/jerboa ${commit}" >> "${GITHUB_STEP_SUMMARY}"
+    - name: Build
+      run: scripts/build.sh "${{ matrix.image }}"
+    - name: Boot and check
+      run: scripts/test.sh "${{ matrix.image }}"
+    - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+      with:
+        name: sbom-${{ matrix.image }}
+        path: sbom-*.cdx.json
+        if-no-files-found: error
+        retention-days: 30
+    - name: Publish
+      if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && (github.event_name != 'workflow_dispatch' || inputs.publish)
+      run: scripts/publish.sh "${{ matrix.image }}"

@@ -1,0 +1,16 @@
+# nginx from Jerboa's first-party package index (built with prefix
+# /etc/nginx), for linux/amd64 and linux/arm64. The configuration and the
+# page it serves come from rootfs/: one process, in the foreground.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["nginx:1.24.0"]
+dirs = ["/tmp"]
+
+[program]
+path = "nginx"
+args = ["-p", "/etc/nginx", "-c", "/etc/nginx/conf/nginx.conf"]
+
+[run]
+memory = "256M"

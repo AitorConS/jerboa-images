@@ -1,0 +1,14 @@
+# Redis from Jerboa's first-party package index, built for linux/amd64 and
+# linux/arm64. Data lives in memory only: nothing is saved to disk.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["redis:7.2.4"]
+
+[program]
+path = "redis-server"
+args = ["--bind", "0.0.0.0", "--protected-mode", "no", "--save", "", "--appendonly", "no"]
+
+[run]
+memory = "256M"
