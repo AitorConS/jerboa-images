@@ -8,6 +8,7 @@ linux/amd64 and linux/arm64 from Jerboa's first-party packages.
 |---|---|---|
 | [`jerboa/redis`](images/redis) | 7.2.16 | In-memory data store |
 | [`jerboa/nginx`](images/nginx) | 1.30.6 | Web server, static files |
+| [`jerboa/caddy`](images/caddy) | 2.11.7 | Web server, static files |
 
 ```sh
 jerboa pull jerboa/redis
