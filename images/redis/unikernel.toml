@@ -4,7 +4,7 @@
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["redis:7.2.4"]
+pkgs = ["redis:7.2.16"]
 
 [program]
 path = "redis-server"
