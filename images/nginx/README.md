@@ -1,6 +1,6 @@
 # nginx
 
-[nginx](https://nginx.org/) 1.24, serving static files, as a
+[nginx](https://nginx.org/) 1.30, serving static files, as a
 [Jerboa](https://github.com/AitorConS/jerboa) unikernel for linux/amd64 and
 linux/arm64.
 
