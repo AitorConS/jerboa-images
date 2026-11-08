@@ -1,0 +1,21 @@
+# Caddy from Jerboa's first-party package index, for linux/amd64 and
+# linux/arm64. The Caddyfile and the page it serves come from rootfs/; Caddy
+# keeps its data and configuration under /tmp.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["caddy:2.11.7"]
+dirs = ["/tmp"]
+
+[program]
+path = "caddy"
+args = ["run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
+
+[env]
+HOME = "/tmp"
+XDG_CONFIG_HOME = "/tmp/config"
+XDG_DATA_HOME = "/tmp/data"
+
+[run]
+memory = "256M"
