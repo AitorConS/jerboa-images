@@ -40,6 +40,11 @@ A weekly run rebuilds everything, to pick up new package and toolset builds.
 Builds are deterministic, so an image whose disk did not change is not
 pushed or signed again.
 
+Every run scans the images' SBOMs with [grype](https://github.com/anchore/grype)
+(`scripts/scan.sh`; the report is on the run's summary). On `main`, critical
+or high vulnerabilities open an issue, once per image and version, and are
+sent to Telegram.
+
 ## An image
 
 ```
