@@ -3,7 +3,9 @@
 # matches each component against the vulnerability databases it aggregates
 # (NVD, GitHub, distributions). Jerboa's packages are built from upstream
 # sources, so components carry generic package URLs: grype matches them by
-# CPEs derived from their name and version (--add-cpes-if-none).
+# CPEs derived from their name and version (--add-cpes-if-none). Components
+# without a version (the SBOM's own subject, the image's program) match every
+# vulnerability of their name, so their matches are left out.
 #
 # Writes scan-<name>-<arch>.json and a report on the job's summary, and sets
 # the step outputs found (critical and high vulnerabilities, all platforms)
@@ -24,11 +26,12 @@ for platform in ${PLATFORMS}; do
 	sbom="sbom-${name}-${arch}.cdx.json"
 	out="scan-${name}-${arch}.json"
 	grype "sbom:${sbom}" --add-cpes-if-none --by-cve -o json --file "${out}"
-	rows="$(jq -r '.matches[] | select(.vulnerability.severity == "Critical" or .vulnerability.severity == "High")
+	rows="$(jq -r '.matches[] | select(.artifact.version != "")
+		| select(.vulnerability.severity == "Critical" or .vulnerability.severity == "High")
 		| "| \(.artifact.name) \(.artifact.version) | [\(.vulnerability.id)](\(.vulnerability.dataSource)) | \(.vulnerability.severity) | \(.vulnerability.fix.versions | join(", ") | if . == "" then "-" else . end) |"' "${out}" | sort -u)"
 	n=0
 	[ -z "${rows}" ] || n="$(printf '%s\n' "${rows}" | wc -l | tr -d ' ')"
-	all="$(jq '.matches | length' "${out}")"
+	all="$(jq '[.matches[] | select(.artifact.version != "") | .vulnerability.id] | unique | length' "${out}")"
 	{
 		echo "**${platform}**: ${n} critical or high, ${all} in all."
 		echo
