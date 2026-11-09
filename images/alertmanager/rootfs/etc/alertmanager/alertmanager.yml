@@ -1,0 +1,7 @@
+# Receives alerts and sends them nowhere: add your receivers.
+route:
+  receiver: default
+  group_by: [alertname]
+  group_wait: 10s
+receivers:
+  - name: default

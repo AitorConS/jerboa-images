@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Scans the SBOMs scripts/build.sh wrote for images/<name> with grype, which
+# Scans the SBOMs scripts/build.sh wrote for images/<name> (at one of its
+# versions, the newest by default) with grype, which
 # matches each component against the vulnerability databases it aggregates
 # (NVD, GitHub, distributions). Jerboa's packages are built from upstream
 # sources, so components carry generic package URLs: grype matches them by
@@ -7,15 +8,15 @@
 # without a version (the SBOM's own subject, the image's program) match every
 # vulnerability of their name, so their matches are left out.
 #
-# Writes scan-<name>-<arch>.json and a report on the job's summary, and sets
+# Writes scan-<name>-<version>-<arch>.json and a report on the job's summary, and sets
 # the step outputs found (critical and high vulnerabilities, all platforms)
 # and report (a Markdown file listing them).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 . scripts/lib.sh
-load_image "$1"
+load_image "$1" "${2:-}"
 
-report="scan-${name}.md"
+report="scan-${name}-${VERSION}.md"
 {
 	echo "### Vulnerabilities in ${NAMESPACE}/${name} ${VERSION}"
 	echo
@@ -23,8 +24,8 @@ report="scan-${name}.md"
 found=0
 for platform in ${PLATFORMS}; do
 	arch="$(arch_of "${platform}")"
-	sbom="sbom-${name}-${arch}.cdx.json"
-	out="scan-${name}-${arch}.json"
+	sbom="sbom-${name}-${VERSION}-${arch}.cdx.json"
+	out="scan-${name}-${VERSION}-${arch}.json"
 	grype "sbom:${sbom}" --add-cpes-if-none --by-cve -o json --file "${out}"
 	rows="$(jq -r '.matches[] | select(.artifact.version != "")
 		| select(.vulnerability.severity == "Critical" or .vulnerability.severity == "High")

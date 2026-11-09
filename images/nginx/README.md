@@ -1,8 +1,12 @@
 # nginx
 
-[nginx](https://nginx.org/) 1.30, serving static files, as a
-[Jerboa](https://github.com/AitorConS/jerboa) unikernel for linux/amd64 and
-linux/arm64.
+[nginx](https://nginx.org/), the web server, serving static files, as a [Jerboa](https://github.com/AitorConS/jerboa)
+unikernel for linux/amd64 and linux/arm64.
+
+| Version | Also tagged |
+|---|---|
+| `1.30.6` | `latest`, `1.30`, `1` |
+| `1.31.8` | `1.31` |
 
 ```sh
 jerboa network create app
@@ -15,8 +19,10 @@ It serves `/etc/nginx/html` on port 80 with the configuration in
 in `/tmp`, errors on the console. To serve your own site, mount a volume
 holding it on `/etc/nginx/html` (`-v site:/etc/nginx/html:ro`).
 
-The package is built without the rewrite and gzip modules.
+1.30 is nginx's stable line and 1.31 its mainline. The package is built
+without the rewrite and gzip modules.
 
 Built from [`images/nginx`](https://github.com/AitorConS/jerboa-images/tree/main/images/nginx)
-by GitHub Actions and signed with Sigstore: `jerboa pull` checks the
-signature on its own, and `jerboa registry verify jerboa/nginx` shows it.
+by GitHub Actions, tested on both platforms and signed with Sigstore:
+`jerboa pull` checks the signature on its own, and
+`jerboa registry verify jerboa/nginx` shows it.

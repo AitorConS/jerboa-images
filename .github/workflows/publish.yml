@@ -1,13 +1,14 @@
 name: Publish
 # Builds every image under images/ for linux/amd64 and linux/arm64, boots
-# the host's platform and checks that it answers, and on main publishes them
+# the host's platform and tests it (scripts/test.sh), and on main publishes them
 # to jerboa/<name> on registry.jerboa.dev. The registry trusts this workflow
 # on main (a trusted publisher of the jerboa namespace): it pushes with the
 # job's OIDC token, no stored credential, and every push is signed with
 # Sigstore. Pull requests only build and test.
 #
-# The weekly run picks up new package and toolset builds; images whose disk
-# did not change are not pushed again (scripts/publish.sh). Every run also
+# Each image is built and tested at every version its image.env lists, in a
+# job of its own. The weekly run picks up new package and toolset builds;
+# images whose disk did not change are not pushed again (scripts/publish.sh). Every run also
 # scans the images' SBOMs for vulnerabilities; on main, critical or high ones
 # open an issue and are sent to Telegram (scripts/scan.sh).
 'on':
@@ -51,16 +52,18 @@ jobs:
     - id: list
       env:
         IMAGE: ${{ inputs.image || 'all' }}
+      # One job per image and version: images/<name>/image.env lists VERSIONS.
       run: |
         if [ "${IMAGE}" = all ]; then
-          images="$(find images -mindepth 2 -maxdepth 2 -name image.env -printf '%h\n' | xargs -n1 basename | sort | jq -R . | jq -sc .)"
+          names="$(find images -mindepth 2 -maxdepth 2 -name image.env -printf '%h\n' | xargs -n1 basename | sort)"
         else
           [ -f "images/${IMAGE}/image.env" ] || { echo "::error::no image ${IMAGE}"; exit 1; }
-          images="$(jq -nc --arg i "${IMAGE}" '[$i]')"
+          names="${IMAGE}"
         fi
+        images="$(for n in ${names}; do (. "images/${n}/image.env"; for v in ${VERSIONS}; do jq -nc --arg i "${n}" --arg v "${v}" '{image: $i, version: $v}'; done); done | jq -sc .)"
         echo "images=${images}" >> "${GITHUB_OUTPUT}"
   image:
-    name: ${{ matrix.image }}
+    name: ${{ matrix.image }} ${{ matrix.version }}
     needs: list
     runs-on: ubuntu-24.04
     timeout-minutes: 45
@@ -73,7 +76,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: ${{ fromJSON(needs.list.outputs.images) }}
+        include: ${{ fromJSON(needs.list.outputs.images) }}
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       with:
@@ -87,9 +90,9 @@ jobs:
       with:
         version: ${{ env.JERBOA_RELEASE }}
     - name: Build
-      run: scripts/build.sh "${{ matrix.image }}"
+      run: scripts/build.sh "${{ matrix.image }}" "${{ matrix.version }}"
     - name: Boot and check
-      run: scripts/test.sh "${{ matrix.image }}"
+      run: scripts/test.sh "${{ matrix.image }}" "${{ matrix.version }}"
     - name: Install grype
       run: |
         curl -fsSL -o "${RUNNER_TEMP}/grype.tar.gz" "https://github.com/anchore/grype/releases/download/v${GRYPE_VERSION}/grype_${GRYPE_VERSION}_linux_amd64.tar.gz"
@@ -101,10 +104,10 @@ jobs:
       # A scan that cannot run (its database unreachable) does not hold back
       # the images; the report step then has nothing to tell.
       continue-on-error: true
-      run: scripts/scan.sh "${{ matrix.image }}"
+      run: scripts/scan.sh "${{ matrix.image }}" "${{ matrix.version }}"
     - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
       with:
-        name: sbom-${{ matrix.image }}
+        name: sbom-${{ matrix.image }}-${{ matrix.version }}
         path: |
           sbom-*.cdx.json
           scan-*.json
@@ -112,13 +115,14 @@ jobs:
         retention-days: 30
     - name: Publish
       if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && (github.event_name != 'workflow_dispatch' || inputs.publish)
-      run: scripts/publish.sh "${{ matrix.image }}"
+      run: scripts/publish.sh "${{ matrix.image }}" "${{ matrix.version }}"
     - name: Report vulnerabilities
       # Once per image and version: an open issue means it was reported.
       if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && steps.scan.outputs.found != '' && steps.scan.outputs.found != '0'
       env:
         GH_TOKEN: ${{ github.token }}
         IMAGE: ${{ matrix.image }}
+        IMAGE_VERSION: ${{ matrix.version }}
         FOUND: ${{ steps.scan.outputs.found }}
         REPORT: ${{ steps.scan.outputs.report }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -126,7 +130,7 @@ jobs:
         RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       run: |
         . scripts/lib.sh
-        load_image "${IMAGE}"
+        load_image "${IMAGE}" "${IMAGE_VERSION}"
         title="Vulnerabilities in ${NAMESPACE}/${IMAGE} ${VERSION}"
         existing="$(gh issue list -R "${GITHUB_REPOSITORY}" --state open --search "\"${title}\" in:title" --json number,title -q ".[] | select(.title == \"${title}\") | .number" | head -n1)"
         if [ -n "${existing}" ]; then

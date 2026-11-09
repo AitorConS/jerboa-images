@@ -1,0 +1,15 @@
+# Valkey from Jerboa's first-party package index. Data lives in memory
+# only: nothing is saved to disk (saving forks a child, which a unikernel
+# cannot do).
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["valkey:@VERSION@"]
+
+[program]
+path = "valkey-server"
+args = ["--bind", "0.0.0.0", "--protected-mode", "no", "--save", "", "--appendonly", "no"]
+
+[run]
+memory = "256M"

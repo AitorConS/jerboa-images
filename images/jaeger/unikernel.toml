@@ -1,0 +1,14 @@
+# Jaeger v2 all in one, the upstream release binary from Jerboa's first-party
+# package index: OTLP in, traces kept in memory, the UI and query API out.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["jaeger:@VERSION@"]
+
+[program]
+path = "jaeger"
+args = ["--config", "/etc/jaeger/config.yaml"]
+
+[run]
+memory = "512M"

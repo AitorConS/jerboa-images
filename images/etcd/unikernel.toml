@@ -1,0 +1,25 @@
+# etcd, the upstream release binary from Jerboa's first-party package index,
+# as a single member. Data is in /etcd-data, a volume to keep it.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["etcd:@VERSION@"]
+dirs = ["/etcd-data"]
+# The write-ahead log preallocates 64 MB.
+disk_size = "512M"
+
+[program]
+path = "etcd"
+args = [
+  "--name=jerboa",
+  "--data-dir=/etcd-data",
+  "--listen-client-urls=http://0.0.0.0:2379",
+  "--advertise-client-urls=http://127.0.0.1:2379",
+  "--listen-peer-urls=http://127.0.0.1:2380",
+  "--initial-advertise-peer-urls=http://127.0.0.1:2380",
+  "--initial-cluster=jerboa=http://127.0.0.1:2380",
+]
+
+[run]
+memory = "512M"

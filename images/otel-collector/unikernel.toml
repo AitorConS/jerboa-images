@@ -1,0 +1,14 @@
+# The OpenTelemetry Collector core distribution (otelcol), the upstream
+# release binary from Jerboa's first-party package index.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["otelcol:@VERSION@"]
+
+[program]
+path = "otelcol"
+args = ["--config=/etc/otelcol/config.yaml"]
+
+[run]
+memory = "256M"

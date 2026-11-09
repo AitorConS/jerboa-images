@@ -1,0 +1,16 @@
+# Meilisearch, the upstream release binary from Jerboa's first-party package
+# index. Its database is in /meili_data, a volume to keep it.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["meilisearch:@VERSION@"]
+dirs = ["/meili_data", "/tmp"]
+disk_size = "512M"
+
+[program]
+path = "meilisearch"
+args = ["--db-path", "/meili_data/data.ms", "--dump-dir", "/meili_data/dumps", "--snapshot-dir", "/meili_data/snapshots", "--http-addr", "0.0.0.0:7700", "--no-analytics"]
+
+[run]
+memory = "1G"

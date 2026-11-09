@@ -1,10 +1,11 @@
-# Redis from Jerboa's first-party package index, built for linux/amd64 and
-# linux/arm64. Data lives in memory only: nothing is saved to disk.
+# Redis from Jerboa's first-party package index. Data lives in memory
+# only: nothing is saved to disk (saving forks a child, which a unikernel
+# cannot do).
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["redis:7.2.16"]
+pkgs = ["redis:@VERSION@"]
 
 [program]
 path = "redis-server"

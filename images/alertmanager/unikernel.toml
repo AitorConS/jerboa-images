@@ -1,0 +1,21 @@
+# Alertmanager, the upstream release binary from Jerboa's first-party package
+# index. Silences and notification state are kept in /var/lib/alertmanager.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["alertmanager:@VERSION@"]
+dirs = ["/var/lib/alertmanager"]
+
+[program]
+path = "alertmanager"
+# No cluster: a single instance, without gossip.
+args = [
+  "--config.file=/etc/alertmanager/alertmanager.yml",
+  "--storage.path=/var/lib/alertmanager",
+  "--cluster.listen-address=",
+  "--data.maintenance-interval=1m",
+]
+
+[run]
+memory = "256M"

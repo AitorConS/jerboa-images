@@ -1,11 +1,11 @@
 # nginx from Jerboa's first-party package index (built with prefix
-# /etc/nginx), for linux/amd64 and linux/arm64. The configuration and the
-# page it serves come from rootfs/: one process, in the foreground.
+# /etc/nginx). The configuration and the page it serves come from rootfs/:
+# one process, in the foreground.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["nginx:1.30.6"]
+pkgs = ["nginx:@VERSION@"]
 dirs = ["/tmp"]
 
 [program]

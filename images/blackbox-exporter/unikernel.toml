@@ -1,0 +1,14 @@
+# Blackbox exporter, the upstream release binary from Jerboa's first-party
+# package index.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["blackbox-exporter:@VERSION@"]
+
+[program]
+path = "blackbox-exporter"
+args = ["--config.file=/etc/blackbox_exporter/config.yml"]
+
+[run]
+memory = "128M"
