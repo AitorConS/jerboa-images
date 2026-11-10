@@ -23,6 +23,11 @@ curl http://127.0.0.1:6333/collections
   publish the ports on `127.0.0.1` only.
 - Telemetry is off (`QDRANT__TELEMETRY_DISABLED`).
 
+On Linux hosts, `jerboa stop` cannot yet ask the unikernel to shut down: it
+ends the VM, so writes from the last few seconds before it may not have
+reached the volume. Give it a few seconds after a write that must be kept.
+The image's tests stop it that way on every platform.
+
 Built from [`images/qdrant`](https://github.com/AitorConS/jerboa-images/tree/main/images/qdrant)
 by GitHub Actions, tested on both platforms and signed with Sigstore:
 `jerboa pull` checks the signature on its own, and

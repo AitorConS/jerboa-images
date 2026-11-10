@@ -24,6 +24,11 @@ open http://127.0.0.1:3000/
 - DNS over UDP on port 53; DHCP is not available in a unikernel. Automatic
   updates are off: pull a newer image instead.
 
+On Linux hosts, `jerboa stop` cannot yet ask the unikernel to shut down: it
+ends the VM, so writes from the last few seconds before it may not have
+reached the volume. Give it a few seconds after a write that must be kept.
+The image's tests stop it that way on every platform.
+
 Built from [`images/adguard-home`](https://github.com/AitorConS/jerboa-images/tree/main/images/adguard-home)
 by GitHub Actions, tested on both platforms and signed with Sigstore:
 `jerboa pull` checks the signature on its own, and

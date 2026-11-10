@@ -21,6 +21,11 @@ jerboa logs <vm>    # the link to create the first superuser
   JavaScript migrations and hooks are read from `/pb_migrations` and
   `/pb_hooks`: mount volumes there to use them.
 
+On Linux hosts, `jerboa stop` cannot yet ask the unikernel to shut down: it
+ends the VM, so writes from the last few seconds before it may not have
+reached the volume. Give it a few seconds after a write that must be kept.
+The image's tests stop it that way on every platform.
+
 Built from [`images/pocketbase`](https://github.com/AitorConS/jerboa-images/tree/main/images/pocketbase)
 by GitHub Actions, tested on both platforms and signed with Sigstore:
 `jerboa pull` checks the signature on its own, and

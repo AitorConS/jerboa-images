@@ -21,6 +21,11 @@ curl http://127.0.0.1:7700/health
   for production.
 - Analytics are off (`--no-analytics`).
 
+On Linux hosts, `jerboa stop` cannot yet ask the unikernel to shut down: it
+ends the VM, so writes from the last few seconds before it may not have
+reached the volume. Give it a few seconds after a write that must be kept.
+The image's tests stop it that way on every platform.
+
 Built from [`images/meilisearch`](https://github.com/AitorConS/jerboa-images/tree/main/images/meilisearch)
 by GitHub Actions, tested on both platforms and signed with Sigstore:
 `jerboa pull` checks the signature on its own, and

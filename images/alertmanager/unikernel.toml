@@ -14,7 +14,8 @@ args = [
   "--config.file=/etc/alertmanager/alertmanager.yml",
   "--storage.path=/var/lib/alertmanager",
   "--cluster.listen-address=",
-  "--data.maintenance-interval=1m",
+  # Silences are written to disk at each maintenance.
+  "--data.maintenance-interval=10s",
 ]
 
 [run]

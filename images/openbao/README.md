@@ -26,6 +26,11 @@ bao operator init
   `/etc/openbao`.
 - Memory locking (`mlock`) does not apply: a unikernel has no swap.
 
+On Linux hosts, `jerboa stop` cannot yet ask the unikernel to shut down: it
+ends the VM, so writes from the last few seconds before it may not have
+reached the volume. Give it a few seconds after a write that must be kept.
+The image's tests stop it that way on every platform.
+
 Built from [`images/openbao`](https://github.com/AitorConS/jerboa-images/tree/main/images/openbao)
 by GitHub Actions, tested on both platforms and signed with Sigstore:
 `jerboa pull` checks the signature on its own, and

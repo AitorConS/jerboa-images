@@ -6,8 +6,10 @@
 #   2. runs exercise: the image's real work, through its own protocol;
 #   3. stops it, which must succeed;
 #   4. when image.env sets DATA (a directory), boots it with a new volume
-#      there, runs write_data, replaces the VM with a new one on the same volume and
-#      runs read_data: what was written must still be there;
+#      there, runs write_data, waits FLUSH_WAIT seconds (15 by default; image.env
+#      may set it), ends the VM as jerboa stop does on Linux, without a guest
+#      shutdown, and runs read_data in a new VM on the same volume: what was
+#      written must still be there;
 #   5. fails if the guest's console shows a crash: a fault signal, a kernel
 #      panic, a failed fork or an unimplemented system call.
 set -euo pipefail
@@ -105,7 +107,11 @@ if [ -n "${DATA:-}" ]; then
 	jerboa volume create "${volume}" --size "${DATA_SIZE:-1G}" >/dev/null
 	boot -v "${volume}:${DATA}"
 	write_data
-	jerboa stop "${vm}"
+	# On Linux, jerboa stop cannot ask the guest to shut down and ends the VM:
+	# only what the guest has written back by then is on the volume. The test
+	# does the same on every host, after giving it FLUSH_WAIT seconds.
+	sleep "${FLUSH_WAIT:-15}"
+	jerboa stop --force "${vm}"
 	boot -v "${volume}:${DATA}"
 	read_data
 	echo "data survived"

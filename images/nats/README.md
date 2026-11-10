@@ -24,6 +24,11 @@ nats -s nats://127.0.0.1:4222 pub greetings hello
   only on a private network; for accounts and TLS, pass a configuration
   file with `--config`.
 
+On Linux hosts, `jerboa stop` cannot yet ask the unikernel to shut down: it
+ends the VM, so writes from the last few seconds before it may not have
+reached the volume. Give it a few seconds after a write that must be kept.
+The image's tests stop it that way on every platform.
+
 Built from [`images/nats`](https://github.com/AitorConS/jerboa-images/tree/main/images/nats)
 by GitHub Actions, tested on both platforms and signed with Sigstore:
 `jerboa pull` checks the signature on its own, and

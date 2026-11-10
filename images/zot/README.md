@@ -20,6 +20,11 @@ oras push 127.0.0.1:5000/hello:v1 README.md
   authentication, TLS or extensions.
 - **Access:** no authentication or TLS: publish the port on `127.0.0.1` only.
 
+On Linux hosts, `jerboa stop` cannot yet ask the unikernel to shut down: it
+ends the VM, so writes from the last few seconds before it may not have
+reached the volume. Give it a few seconds after a write that must be kept.
+The image's tests stop it that way on every platform.
+
 Built from [`images/zot`](https://github.com/AitorConS/jerboa-images/tree/main/images/zot)
 by GitHub Actions, tested on both platforms and signed with Sigstore:
 `jerboa pull` checks the signature on its own, and

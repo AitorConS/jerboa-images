@@ -22,6 +22,11 @@ curl -d 'temperature{room="lab"} 21.5' http://127.0.0.1:8428/api/v1/import/prome
 - **Access:** no authentication. Publish the port on `127.0.0.1`, or only on
   a private network.
 
+On Linux hosts, `jerboa stop` cannot yet ask the unikernel to shut down: it
+ends the VM, so writes from the last few seconds before it may not have
+reached the volume. Give it a few seconds after a write that must be kept.
+The image's tests stop it that way on every platform.
+
 Built from [`images/victoria-metrics`](https://github.com/AitorConS/jerboa-images/tree/main/images/victoria-metrics)
 by GitHub Actions, tested on both platforms and signed with Sigstore:
 `jerboa pull` checks the signature on its own, and
