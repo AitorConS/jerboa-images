@@ -1,10 +1,10 @@
-# Jaeger v2 all in one, the upstream release binary from Jerboa's first-party
+# Jaeger v2 all in one, built from the upstream source in Jerboa's first-party
 # package index: OTLP in, traces kept in memory, the UI and query API out.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["jaeger:@VERSION@"]
+pkgs = ["jaeger:@PACKAGE_VERSION@"]
 
 [program]
 path = "jaeger"

@@ -25,6 +25,10 @@ bao operator init
   `127.0.0.1` only, or mount your own configuration with TLS on
   `/etc/openbao`.
 - Memory locking (`mlock`) does not apply: a unikernel has no swap.
+- **Known advisory:** OpenBao still depends, indirectly, on go-jose v3,
+  affected by [GHSA-mgcc-cww5-fp2q](https://github.com/advisories/GHSA-mgcc-cww5-fp2q)
+  (denial of service when parsing a JWK set with RSA keys). v3 has no fixed
+  release; its v4, which OpenBao uses itself, is built at the fixed 4.1.6.
 
 On Linux hosts, `jerboa stop` cannot yet ask the unikernel to shut down: it
 ends the VM, so writes from the last few seconds before it may not have

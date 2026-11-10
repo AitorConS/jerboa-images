@@ -1,10 +1,10 @@
-# PocketBase, the upstream release binary from Jerboa's first-party package
+# PocketBase, built from the upstream source in Jerboa's first-party package
 # index. Its database and files are in /pb_data.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["pocketbase:@VERSION@"]
+pkgs = ["pocketbase:@PACKAGE_VERSION@"]
 dirs = ["/pb_data", "/pb_public", "/pb_migrations", "/pb_hooks"]
 disk_size = "512M"
 

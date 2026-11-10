@@ -1,10 +1,10 @@
-# Traefik, the upstream release binary from Jerboa's first-party package
+# Traefik, built from the upstream source in Jerboa's first-party package
 # index. Routes come from files in /etc/traefik/dynamic (the file provider).
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["traefik:@VERSION@"]
+pkgs = ["traefik:@PACKAGE_VERSION@"]
 dirs = ["/etc/traefik/dynamic"]
 
 [program]

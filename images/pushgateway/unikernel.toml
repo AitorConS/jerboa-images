@@ -1,10 +1,10 @@
-# Pushgateway, the upstream release binary from Jerboa's first-party package
+# Pushgateway, built from the upstream source in Jerboa's first-party package
 # index. Pushed metrics are saved to /data/metrics.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["pushgateway:@VERSION@"]
+pkgs = ["pushgateway:@PACKAGE_VERSION@"]
 dirs = ["/data"]
 
 [program]

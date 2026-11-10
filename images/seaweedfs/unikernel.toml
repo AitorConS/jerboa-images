@@ -1,10 +1,10 @@
-# SeaweedFS, the upstream release binary from Jerboa's first-party package
+# SeaweedFS, built from the upstream source in Jerboa's first-party package
 # index: master, volume server, filer and S3 gateway in one process.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["seaweedfs:@VERSION@"]
+pkgs = ["seaweedfs:@PACKAGE_VERSION@"]
 dirs = ["/data", "/tmp"]
 disk_size = "512M"
 

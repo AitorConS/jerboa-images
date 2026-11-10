@@ -1,10 +1,10 @@
-# Loki, the upstream release binary from Jerboa's first-party package index,
+# Loki, built from the upstream source in Jerboa's first-party package index,
 # as a single binary with filesystem storage in /var/lib/loki.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["loki:@VERSION@"]
+pkgs = ["loki:@PACKAGE_VERSION@"]
 dirs = ["/var/lib/loki"]
 disk_size = "512M"
 

@@ -1,10 +1,10 @@
-# ntfy, the upstream release binary from Jerboa's first-party package index.
+# ntfy, built from the upstream source in Jerboa's first-party package index.
 # Messages are cached in /var/cache/ntfy/cache.db.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["ntfy:@VERSION@"]
+pkgs = ["ntfy:@PACKAGE_VERSION@"]
 dirs = ["/var/cache/ntfy"]
 
 [program]

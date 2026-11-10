@@ -6,7 +6,6 @@ unikernel for linux/amd64 and linux/arm64.
 | Version | Also tagged |
 |---|---|
 | `3.7.16` | `latest`, `3.7`, `3` |
-| `2.11.60` | `2.11`, `2` |
 
 ```sh
 jerboa network create app

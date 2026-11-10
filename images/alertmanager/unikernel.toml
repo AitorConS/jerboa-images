@@ -1,10 +1,10 @@
-# Alertmanager, the upstream release binary from Jerboa's first-party package
+# Alertmanager, built from the upstream source in Jerboa's first-party package
 # index. Silences and notification state are kept in /var/lib/alertmanager.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["alertmanager:@VERSION@"]
+pkgs = ["alertmanager:@PACKAGE_VERSION@"]
 dirs = ["/var/lib/alertmanager"]
 
 [program]

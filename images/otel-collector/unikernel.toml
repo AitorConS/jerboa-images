@@ -1,10 +1,10 @@
-# The OpenTelemetry Collector core distribution (otelcol), the upstream
-# release binary from Jerboa's first-party package index.
+# The OpenTelemetry Collector core distribution (otelcol), built from the upstream
+# source in Jerboa's first-party package index.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["otelcol:@VERSION@"]
+pkgs = ["otelcol:@PACKAGE_VERSION@"]
 
 [program]
 path = "otelcol"

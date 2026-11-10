@@ -1,10 +1,10 @@
-# AdGuard Home, the upstream release binary from Jerboa's first-party package
+# AdGuard Home, built from the upstream source in Jerboa's first-party package
 # index. Its configuration and data are in /opt/adguardhome/work.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["adguardhome:@VERSION@"]
+pkgs = ["adguardhome:@PACKAGE_VERSION@"]
 dirs = ["/opt/adguardhome/work", "/opt/adguardhome/conf"]
 
 [program]

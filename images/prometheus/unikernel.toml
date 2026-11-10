@@ -1,11 +1,11 @@
-# Prometheus, the upstream release binary from Jerboa's first-party package
+# Prometheus, built from the upstream source in Jerboa's first-party package
 # index. The configuration is /etc/prometheus/prometheus.yml; the database is
 # in /var/lib/prometheus, a volume to keep it.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["prometheus:@VERSION@"]
+pkgs = ["prometheus:@PACKAGE_VERSION@"]
 dirs = ["/var/lib/prometheus"]
 disk_size = "512M"
 

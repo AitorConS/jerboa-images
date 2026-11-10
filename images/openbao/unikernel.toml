@@ -1,10 +1,10 @@
-# OpenBao, the upstream release binary from Jerboa's first-party package
+# OpenBao, built from the upstream source in Jerboa's first-party package
 # index, with integrated (Raft) storage in /var/lib/openbao.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["openbao:@VERSION@"]
+pkgs = ["openbao:@PACKAGE_VERSION@"]
 dirs = ["/var/lib/openbao"]
 
 [program]

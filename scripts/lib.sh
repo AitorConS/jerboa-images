@@ -29,7 +29,10 @@ local_ref() { echo "${name}:${VERSION}-$(arch_of "$1")"; }
 
 # The unikernel.toml of the selected version: unikernel.<major.minor>.toml or
 # unikernel.<major>.toml when the image has one for that line, otherwise
-# unikernel.toml. @VERSION@ in it is replaced by the version.
+# unikernel.toml. @VERSION@ in it is replaced by the version, and
+# @PACKAGE_VERSION@ by the version of its package: the version, with
+# -<PACKAGE_REVISION> when image.env sets one (a package rebuilt from the same
+# upstream release).
 unikernel_toml() {
 	local minor="${VERSION%.*}" major="${VERSION%%.*}" src="${dir}/unikernel.toml" out
 	if [ -f "${dir}/unikernel.${minor}.toml" ]; then
@@ -38,7 +41,7 @@ unikernel_toml() {
 		src="${dir}/unikernel.${major}.toml"
 	fi
 	out="${TMPDIR:-/tmp}/unikernel-${name}-${VERSION}.toml"
-	sed "s/@VERSION@/${VERSION}/g" "${src}" > "${out}"
+	sed -e "s/@PACKAGE_VERSION@/${VERSION}${PACKAGE_REVISION:+-${PACKAGE_REVISION}}/g" -e "s/@VERSION@/${VERSION}/g" "${src}" > "${out}"
 	echo "${out}"
 }
 

@@ -1,10 +1,10 @@
-# Mailpit, the upstream release binary from Jerboa's first-party package
+# Mailpit, built from the upstream source in Jerboa's first-party package
 # index. Messages are stored in /data/mailpit.db.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["mailpit:@VERSION@"]
+pkgs = ["mailpit:@PACKAGE_VERSION@"]
 dirs = ["/data"]
 
 [program]

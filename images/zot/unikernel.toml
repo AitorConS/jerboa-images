@@ -1,10 +1,10 @@
-# zot, the upstream release binary from Jerboa's first-party package index.
+# zot, built from the upstream source in Jerboa's first-party package index.
 # Images are stored in /var/lib/registry.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["zot:@VERSION@"]
+pkgs = ["zot:@PACKAGE_VERSION@"]
 dirs = ["/var/lib/registry"]
 
 [program]

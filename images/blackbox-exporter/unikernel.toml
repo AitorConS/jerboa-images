@@ -1,10 +1,10 @@
-# Blackbox exporter, the upstream release binary from Jerboa's first-party
+# Blackbox exporter, built from the upstream source in Jerboa's first-party
 # package index.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["blackbox-exporter:@VERSION@"]
+pkgs = ["blackbox-exporter:@PACKAGE_VERSION@"]
 
 [program]
 path = "blackbox-exporter"

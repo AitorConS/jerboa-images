@@ -1,10 +1,10 @@
-# Gotify server, the upstream release binary from Jerboa's first-party
+# Gotify server, built from the upstream source in Jerboa's first-party
 # package index, with its SQLite database in /app/data.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["gotify:@VERSION@"]
+pkgs = ["gotify:@PACKAGE_VERSION@"]
 dirs = ["/app/data"]
 
 [program]

@@ -1,10 +1,10 @@
-# CoreDNS, the upstream release binary from Jerboa's first-party package
+# CoreDNS, built from the upstream source in Jerboa's first-party package
 # index. The configuration is /etc/coredns/Corefile.
 
 [build]
 lang = "raw"
 pkg_source = "jerboa"
-pkgs = ["coredns:@VERSION@"]
+pkgs = ["coredns:@PACKAGE_VERSION@"]
 
 [program]
 path = "coredns"

@@ -32,7 +32,7 @@ linux/amd64 and linux/arm64 from Jerboa's first-party packages.
 | [`jerboa/registry`](images/registry) | 3.1.2 | The CNCF Distribution registry for OCI container images |
 | [`jerboa/seaweedfs`](images/seaweedfs) | 4.51 | The distributed file and object store (all in one) |
 | [`jerboa/static-web-server`](images/static-web-server) | 2.44.1 | A small and fast static file server |
-| [`jerboa/traefik`](images/traefik) | 3.7.16, 2.11.60 | The reverse proxy and load balancer |
+| [`jerboa/traefik`](images/traefik) | 3.7.16 | The reverse proxy and load balancer |
 | [`jerboa/valkey`](images/valkey) | 9.0.6, 8.1.10, 7.2.14 | The in-memory data store |
 | [`jerboa/vector`](images/vector) | 0.60.0 | The observability data pipeline |
 | [`jerboa/victoria-metrics`](images/victoria-metrics) | 1.154.1 | The time series database (single node) |
