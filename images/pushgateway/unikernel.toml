@@ -1,0 +1,15 @@
+# Pushgateway, built from the upstream source in Jerboa's first-party package
+# index. Pushed metrics are saved to /data/metrics.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["pushgateway:@PACKAGE_VERSION@"]
+dirs = ["/data"]
+
+[program]
+path = "pushgateway"
+args = ["--persistence.file=/data/metrics", "--persistence.interval=5s"]
+
+[run]
+memory = "128M"

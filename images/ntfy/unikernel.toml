@@ -1,0 +1,15 @@
+# ntfy, built from the upstream source in Jerboa's first-party package index.
+# Messages are cached in /var/cache/ntfy/cache.db.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["ntfy:@PACKAGE_VERSION@"]
+dirs = ["/var/cache/ntfy"]
+
+[program]
+path = "ntfy"
+args = ["serve", "--listen-http", ":80", "--cache-file", "/var/cache/ntfy/cache.db", "--cache-duration", "12h"]
+
+[run]
+memory = "128M"

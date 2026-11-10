@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
-# Publishes images/<name> to jerboa/<name> on the registry, from a GitHub
+# Publishes images/<name> at one of its versions (the newest by default) to
+# jerboa/<name> on the registry, from a GitHub
 # Actions job of a trusted publisher (the job's OIDC token: no stored
 # credential), which also signs every push with Sigstore:
 #   <version>-<arch>  one tag per platform, pushed only when its disk changed;
-#   <version>, latest an image index of those, pushed when a platform changed
+#   <version>         an image index of those, pushed when a platform changed
 #                     or the tag does not exist yet;
+#   aliases           the same index under the version's minor and major
+#                     lines when it is the newest of them, and latest for the
+#                     image's newest version (lib.sh, alias_tags);
 #   the description and README shown on the hub.
 # Builds are deterministic, so an unchanged image is not pushed or signed again.
 #
@@ -14,7 +18,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 . scripts/lib.sh
-load_image "$1"
+load_image "$1" "${2:-}"
 
 repo="${NAMESPACE}/${name}"
 
@@ -46,7 +50,8 @@ for platform in ${PLATFORMS}; do
 	sources+=("${repo}@${recipe}")
 done
 
-for tag in "${VERSION}" latest; do
+# shellcheck disable=SC2046
+for tag in "${VERSION}" $(alias_tags); do
 	if [ "${changed}" = 1 ] || [ -z "$(curl -fsS --max-time 20 "${CDN}/tags/${repo}/${tag}" 2>/dev/null)" ]; then
 		jerboa push --index "${repo}:${tag}" "${sources[@]}"
 	else
@@ -54,4 +59,5 @@ for tag in "${VERSION}" latest; do
 	fi
 done
 
-jerboa registry repo edit "${repo}" --description "${DESCRIPTION}" --readme "${dir}/README.md"
+# The hub page belongs to the image, not a version: the newest one sets it.
+[ "${VERSION}" != "${VERSIONS%% *}" ] || jerboa registry repo edit "${repo}" --description "${DESCRIPTION}" --readme "${dir}/README.md"

@@ -1,0 +1,14 @@
+# CoreDNS, built from the upstream source in Jerboa's first-party package
+# index. The configuration is /etc/coredns/Corefile.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["coredns:@PACKAGE_VERSION@"]
+
+[program]
+path = "coredns"
+args = ["-conf", "/etc/coredns/Corefile"]
+
+[run]
+memory = "128M"

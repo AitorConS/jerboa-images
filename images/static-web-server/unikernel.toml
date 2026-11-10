@@ -1,0 +1,14 @@
+# static-web-server, the upstream release binary from Jerboa's first-party
+# package index. It serves /srv.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["static-web-server:@VERSION@"]
+
+[program]
+path = "static-web-server"
+args = ["--port", "80", "--root", "/srv", "--health", "--log-level", "info"]
+
+[run]
+memory = "128M"

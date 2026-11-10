@@ -1,0 +1,15 @@
+# The CNCF Distribution registry, built from the upstream source in Jerboa's
+# first-party package index. Images are stored in /var/lib/registry.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["distribution-registry:@PACKAGE_VERSION@"]
+dirs = ["/var/lib/registry"]
+
+[program]
+path = "distribution-registry"
+args = ["serve", "/etc/distribution/config.yml"]
+
+[run]
+memory = "256M"

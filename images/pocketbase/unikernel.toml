@@ -1,0 +1,16 @@
+# PocketBase, built from the upstream source in Jerboa's first-party package
+# index. Its database and files are in /pb_data.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["pocketbase:@PACKAGE_VERSION@"]
+dirs = ["/pb_data", "/pb_public", "/pb_migrations", "/pb_hooks"]
+disk_size = "512M"
+
+[program]
+path = "pocketbase"
+args = ["serve", "--http=0.0.0.0:8090", "--dir=/pb_data", "--publicDir=/pb_public", "--migrationsDir=/pb_migrations", "--hooksDir=/pb_hooks"]
+
+[run]
+memory = "256M"

@@ -1,0 +1,15 @@
+# HAProxy from Jerboa's first-party package index, built from source with
+# OpenSSL, zlib and the Prometheus exporter. One process in the foreground
+# (-db), threads for concurrency: no master-worker mode, which forks.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["haproxy:@VERSION@"]
+
+[program]
+path = "haproxy"
+args = ["-f", "/etc/haproxy/haproxy.cfg", "-db"]
+
+[run]
+memory = "256M"

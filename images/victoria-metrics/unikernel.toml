@@ -1,0 +1,16 @@
+# VictoriaMetrics single node, built from the upstream source in Jerboa's
+# first-party package index. Data is in /data, a volume to keep it.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["victoria-metrics:@PACKAGE_VERSION@"]
+dirs = ["/data"]
+disk_size = "512M"
+
+[program]
+path = "victoria-metrics"
+args = ["-storageDataPath=/data", "-retentionPeriod=1", "-httpListenAddr=:8428", "-storage.minFreeDiskSpaceBytes=32MB"]
+
+[run]
+memory = "512M"

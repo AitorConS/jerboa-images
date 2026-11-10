@@ -1,0 +1,26 @@
+# Traefik, built from the upstream source in Jerboa's first-party package
+# index. Routes come from files in /etc/traefik/dynamic (the file provider).
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["traefik:@PACKAGE_VERSION@"]
+dirs = ["/etc/traefik/dynamic"]
+
+[program]
+path = "traefik"
+args = [
+  "--entrypoints.web.address=:80",
+  "--entrypoints.traefik.address=:8080",
+  "--api.insecure=true",
+  "--api.dashboard=true",
+  "--ping=true",
+  "--providers.file.directory=/etc/traefik/dynamic",
+  "--providers.file.watch=false",
+  "--log.level=INFO",
+  "--global.checknewversion=false",
+  "--global.sendanonymoususage=false",
+]
+
+[run]
+memory = "256M"

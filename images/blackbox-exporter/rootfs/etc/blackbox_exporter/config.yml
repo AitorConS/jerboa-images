@@ -1,0 +1,18 @@
+modules:
+  http_2xx:
+    prober: http
+    timeout: 5s
+  http_post_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      method: POST
+  tcp_connect:
+    prober: tcp
+    timeout: 5s
+  dns_udp:
+    prober: dns
+    timeout: 5s
+    dns:
+      query_name: jerboa.dev
+      query_type: A

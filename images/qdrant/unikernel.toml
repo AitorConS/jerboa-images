@@ -1,0 +1,20 @@
+# Qdrant, the upstream release binary (musl build) from Jerboa's first-party
+# package index. Collections are stored in /var/lib/qdrant/storage.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["qdrant:@VERSION@"]
+dirs = ["/var/lib/qdrant/storage", "/var/lib/qdrant/snapshots"]
+disk_size = "512M"
+
+[program]
+path = "qdrant"
+
+[env]
+QDRANT__STORAGE__STORAGE_PATH = "/var/lib/qdrant/storage"
+QDRANT__STORAGE__SNAPSHOTS_PATH = "/var/lib/qdrant/snapshots"
+QDRANT__TELEMETRY_DISABLED = "true"
+
+[run]
+memory = "512M"

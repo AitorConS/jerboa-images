@@ -1,0 +1,15 @@
+# OpenBao, built from the upstream source in Jerboa's first-party package
+# index, with integrated (Raft) storage in /var/lib/openbao.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["openbao:@PACKAGE_VERSION@"]
+dirs = ["/var/lib/openbao"]
+
+[program]
+path = "openbao"
+args = ["server", "-config=/etc/openbao/config.hcl"]
+
+[run]
+memory = "256M"

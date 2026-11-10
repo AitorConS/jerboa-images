@@ -1,0 +1,15 @@
+# Vector, the upstream release binary (glibc build) from Jerboa's first-party
+# package index.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["vector:@VERSION@"]
+dirs = ["/var/lib/vector"]
+
+[program]
+path = "vector"
+args = ["--config", "/etc/vector/vector.yaml"]
+
+[run]
+memory = "256M"

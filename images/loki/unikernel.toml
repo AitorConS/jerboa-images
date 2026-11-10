@@ -1,0 +1,16 @@
+# Loki, built from the upstream source in Jerboa's first-party package index,
+# as a single binary with filesystem storage in /var/lib/loki.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["loki:@PACKAGE_VERSION@"]
+dirs = ["/var/lib/loki"]
+disk_size = "512M"
+
+[program]
+path = "loki"
+args = ["-config.file=/etc/loki/config.yaml"]
+
+[run]
+memory = "512M"

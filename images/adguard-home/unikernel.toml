@@ -1,0 +1,15 @@
+# AdGuard Home, built from the upstream source in Jerboa's first-party package
+# index. Its configuration and data are in /opt/adguardhome/work.
+
+[build]
+lang = "raw"
+pkg_source = "jerboa"
+pkgs = ["adguardhome:@PACKAGE_VERSION@"]
+dirs = ["/opt/adguardhome/work", "/opt/adguardhome/conf"]
+
+[program]
+path = "adguardhome"
+args = ["--work-dir", "/opt/adguardhome/work", "--config", "/opt/adguardhome/conf/AdGuardHome.yaml", "--no-check-update", "--web-addr", "0.0.0.0:3000"]
+
+[run]
+memory = "256M"
