@@ -89,6 +89,12 @@ jobs:
     - uses: AitorConS/jerboa/.github/actions/setup-jerboa@71f3739ec37278f10d36f5e19040ef3242befa84
       with:
         version: ${{ env.JERBOA_RELEASE }}
+    - name: Wait for jerboad
+      # The 0.57.0 installer returns before the daemon listens
+      # (AitorConS/jerboa#224).
+      run: |
+        for _ in $(seq 30); do jerboa ps >/dev/null 2>&1 && exit 0; sleep 1; done
+        jerboa ps
     - name: Build
       run: scripts/build.sh "${{ matrix.image }}" "${{ matrix.version }}"
     - name: Boot and check
