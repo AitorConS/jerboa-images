@@ -52,10 +52,19 @@ done
 
 jerboa network inspect ci >/dev/null 2>&1 || jerboa network create ci >/dev/null
 
+# A stopping VM cannot be removed yet (a forced stop returns before the VM
+# is gone on Linux): retry for a while.
 remove() {
+	local i
 	jerboa logs "${vm}" >> "${logs}" 2>/dev/null || true
 	jerboa stop "${vm}" >/dev/null 2>&1 || true
-	jerboa rm "${vm}" >/dev/null 2>&1 || true
+	for i in $(seq 30); do
+		jerboa rm "${vm}" >/dev/null 2>&1 && return 0
+		jerboa ps 2>/dev/null | awk -v n="${vm}" '$2 == n' | grep -q . || return 0
+		sleep 1
+	done
+	echo "could not remove ${vm}" >&2
+	return 1
 }
 cleanup() {
 	status=$?
@@ -63,7 +72,7 @@ cleanup() {
 		echo "--- console of ${vm} ---"
 		jerboa logs "${vm}" 2>/dev/null | tail -n 80 || tail -n 80 "${logs}"
 	fi
-	remove
+	remove || true
 	jerboa volume rm "${volume}" >/dev/null 2>&1 || true
 	rm -rf "${logs}" "${STATE}"
 	exit "${status}"
@@ -71,7 +80,7 @@ cleanup() {
 trap cleanup EXIT
 
 boot() {
-	remove
+	remove || true
 	jerboa run "${ref}" --name "${vm}" --network ci "${publish[@]}" "$@"
 	local start=${SECONDS}
 	until ready >/dev/null 2>&1; do
