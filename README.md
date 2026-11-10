@@ -17,7 +17,6 @@ linux/amd64 and linux/arm64 from Jerboa's first-party packages.
 | [`jerboa/jaeger`](images/jaeger) | 2.22.0 | The distributed tracing platform (all in one, in memory) |
 | [`jerboa/loki`](images/loki) | 3.7.9, 3.6.19 | The log aggregation system (single binary) |
 | [`jerboa/mailpit`](images/mailpit) | 1.32.0 | The email and SMTP testing tool |
-| [`jerboa/meilisearch`](images/meilisearch) | 1.55.0 | The search engine |
 | [`jerboa/memcached`](images/memcached) | 1.6.45 | The memory object cache |
 | [`jerboa/nats`](images/nats) | 2.15.1, 2.14.8 | The messaging system, with JetStream |
 | [`jerboa/nginx`](images/nginx) | 1.30.6, 1.31.8 | The web server, serving static files as a Jerboa unikernel |
