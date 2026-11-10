@@ -2,8 +2,10 @@
 # shellcheck shell=bash
 ready() { [ "$(http_status 8200 '/v1/sys/health?uninitcode=200&sealedcode=200&standbycode=200')" = 200 ]; }
 json() { python3 -c "import json,sys;print(json.load(sys.stdin)$1)"; }
+# A new node answers init once Raft has elected it leader, which can take
+# longer than one request's default timeout.
 init() {
-	http 8200 /v1/sys/init -X PUT -d '{"secret_shares":1,"secret_threshold":1}' > "${STATE}/init.json"
+	http 8200 /v1/sys/init -X PUT -d '{"secret_shares":1,"secret_threshold":1}' --max-time 60 > "${STATE}/init.json"
 	unseal
 }
 unseal() {
