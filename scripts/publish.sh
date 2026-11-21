@@ -60,4 +60,13 @@ for tag in "${VERSION}" $(alias_tags); do
 done
 
 # The hub page belongs to the image, not a version: the newest one sets it.
-[ "${VERSION}" != "${VERSIONS%% *}" ] || jerboa registry repo edit "${repo}" --description "${DESCRIPTION}" --readme "${dir}/README.md"
+# Categories need jerboa 0.62 or later (repo edit --categories); older CLIs skip them.
+if [ "${VERSION}" = "${VERSIONS%% *}" ]; then
+	hub=(--description "${DESCRIPTION}" --readme "${dir}/README.md")
+	if jerboa registry repo edit --help 2>/dev/null | grep -q -- '--categories'; then
+		hub+=(--categories "${CATEGORIES}")
+	else
+		echo "jerboa $(jerboa version 2>/dev/null | head -1) cannot set categories; skipping them"
+	fi
+	jerboa registry repo edit "${repo}" "${hub[@]}"
+fi

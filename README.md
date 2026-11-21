@@ -99,8 +99,9 @@ or version is added.
 
 ```
 images/<name>/
-  image.env        versions (the newest first), platforms, hub description,
-                   ports, and the data directory if it keeps data
+  image.env        versions (the newest first), platforms, hub description and
+                   categories (1 to 3 of the hub's slugs), ports, and the data
+                   directory if it keeps data
   unikernel.toml   how it is built and run; @VERSION@ is the version
   check.sh         its tests: ready, exercise, and write_data/read_data
   rootfs/          files it adds to the image (configuration, default pages)
