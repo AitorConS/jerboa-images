@@ -3,10 +3,6 @@
 [ntfy](https://ntfy.sh/), the HTTP-based publish-subscribe notification service, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `2.34.0` | `latest`, `2.34`, `2` |
-
 ```sh
 jerboa network create app
 jerboa run jerboa/ntfy --network app -p 127.0.0.1:8080:80

@@ -3,11 +3,6 @@
 [Qdrant](https://qdrant.tech/), the vector database, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `1.20.0` | `latest`, `1.20`, `1` |
-| `1.19.2` | `1.19` |
-
 ```sh
 jerboa network create app
 jerboa volume create qdrant-data --size 10G

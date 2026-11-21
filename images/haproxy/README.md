@@ -3,11 +3,6 @@
 [HAProxy](https://www.haproxy.org/), the load balancer and proxy, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `3.2.26` | `latest`, `3.2`, `3` |
-| `3.0.30` | `3.0` |
-
 ```sh
 jerboa network create app
 jerboa run jerboa/haproxy --network app -p 127.0.0.1:8080:80 -p 127.0.0.1:8404:8404

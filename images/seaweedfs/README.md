@@ -3,10 +3,6 @@
 [SeaweedFS](https://github.com/seaweedfs/seaweedfs), the distributed file and object store, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `4.51` | `latest`, `4` |
-
 ```sh
 jerboa network create app
 jerboa volume create seaweedfs-data --size 20G

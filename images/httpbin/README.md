@@ -3,10 +3,6 @@
 [httpbin](https://github.com/mccutchen/go-httpbin) (go-httpbin), the HTTP request and response service, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `2.26.0` | `latest`, `2.26`, `2` |
-
 ```sh
 jerboa network create app
 jerboa run jerboa/httpbin --network app -p 127.0.0.1:8080:8080

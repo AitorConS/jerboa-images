@@ -3,10 +3,6 @@
 [Traefik](https://traefik.io/traefik/), the reverse proxy and load balancer, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `3.7.16` | `latest`, `3.7`, `3` |
-
 ```sh
 jerboa network create app
 jerboa volume create traefik-routes

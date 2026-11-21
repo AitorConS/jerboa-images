@@ -3,10 +3,6 @@
 [Jaeger](https://www.jaegertracing.io/), the distributed tracing platform (all in one), as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `2.22.0` | `latest`, `2.22`, `2` |
-
 ```sh
 jerboa network create app
 jerboa run jerboa/jaeger --network app -p 127.0.0.1:4318:4318 -p 127.0.0.1:16686:16686

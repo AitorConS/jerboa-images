@@ -3,10 +3,6 @@
 [Distribution registry](https://distribution.github.io/distribution/) (CNCF Distribution), the OCI container image registry, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `3.1.2` | `latest`, `3.1`, `3` |
-
 ```sh
 jerboa network create app
 jerboa volume create registry-data --size 20G

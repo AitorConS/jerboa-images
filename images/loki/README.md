@@ -3,11 +3,6 @@
 [Loki](https://grafana.com/oss/loki/), the log aggregation system, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `3.7.9` | `latest`, `3.7`, `3` |
-| `3.6.19` | `3.6` |
-
 ```sh
 jerboa network create app
 jerboa volume create loki-data --size 10G

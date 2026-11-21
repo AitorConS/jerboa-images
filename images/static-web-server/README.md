@@ -3,10 +3,6 @@
 [static-web-server](https://static-web-server.net/), the small, fast static file server, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `2.44.1` | `latest`, `2.44`, `2` |
-
 ```sh
 jerboa network create app
 jerboa run jerboa/static-web-server --network app -p 127.0.0.1:8080:80
