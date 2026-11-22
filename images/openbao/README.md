@@ -3,11 +3,6 @@
 [OpenBao](https://openbao.org/), the secrets manager (a fork of HashiCorp Vault, under the MPL), as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `2.7.1` | `latest`, `2.7`, `2` |
-| `2.6.4` | `2.6` |
-
 ```sh
 jerboa network create app
 jerboa volume create openbao-data

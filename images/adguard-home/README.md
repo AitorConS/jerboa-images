@@ -3,10 +3,6 @@
 [AdGuard Home](https://adguard.com/adguard-home/overview.html), the network-wide ad and tracker blocking DNS server, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `0.107.79` | `latest`, `0.107` |
-
 ```sh
 jerboa network create app
 jerboa volume create adguard-work

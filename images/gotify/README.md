@@ -3,10 +3,6 @@
 [Gotify](https://gotify.net/), the server for sending and receiving messages, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `3.1.1` | `latest`, `3.1`, `3` |
-
 ```sh
 jerboa network create app
 jerboa volume create gotify-data

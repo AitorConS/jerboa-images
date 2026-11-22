@@ -3,10 +3,6 @@
 [PocketBase](https://pocketbase.io/), the backend in one file: database, auth, files and admin UI, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `0.40.6` | `latest`, `0.40` |
-
 ```sh
 jerboa network create app
 jerboa volume create pb-data

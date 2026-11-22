@@ -3,10 +3,6 @@
 [Redis](https://redis.io/), the in-memory data store, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `7.2.16` | `latest`, `7.2`, `7` |
-
 ```sh
 jerboa network create app
 jerboa run jerboa/redis --network app -p 127.0.0.1:6379:6379

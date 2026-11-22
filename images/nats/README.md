@@ -3,11 +3,6 @@
 [NATS](https://nats.io/), the messaging system, with JetStream, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `2.15.1` | `latest`, `2.15`, `2` |
-| `2.14.8` | `2.14` |
-
 ```sh
 jerboa network create app
 jerboa volume create nats-data

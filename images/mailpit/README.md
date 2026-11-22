@@ -3,10 +3,6 @@
 [Mailpit](https://mailpit.axllent.org/), the email and SMTP testing tool, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `1.32.0` | `latest`, `1.32`, `1` |
-
 ```sh
 jerboa network create app
 jerboa run jerboa/mailpit --network app -p 127.0.0.1:1025:1025 -p 127.0.0.1:8025:8025

@@ -3,10 +3,6 @@
 [memcached](https://memcached.org/), the memory object cache, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `1.6.45` | `latest`, `1.6`, `1` |
-
 ```sh
 jerboa network create app
 jerboa run jerboa/memcached --network app -p 127.0.0.1:11211:11211

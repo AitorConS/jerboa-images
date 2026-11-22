@@ -3,10 +3,6 @@
 [Blackbox exporter](https://github.com/prometheus/blackbox_exporter), the Prometheus prober for HTTP, TCP, DNS and ICMP endpoints, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `0.29.1` | `latest`, `0.29` |
-
 ```sh
 jerboa network create app
 jerboa run jerboa/blackbox-exporter --network app -p 127.0.0.1:9115:9115

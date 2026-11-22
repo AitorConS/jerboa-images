@@ -3,11 +3,6 @@
 [CoreDNS](https://coredns.io/), the DNS server, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `1.15.0` | `latest`, `1.15`, `1` |
-| `1.14.7` | `1.14` |
-
 ```sh
 jerboa network create app
 jerboa run jerboa/coredns --network app -p 127.0.0.1:1053:53/udp

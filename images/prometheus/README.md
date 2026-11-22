@@ -3,11 +3,6 @@
 [Prometheus](https://prometheus.io/), the monitoring system and time series database, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `3.15.1` | `latest`, `3.15`, `3` |
-| `3.13.5` | `3.13` |
-
 ```sh
 jerboa network create app
 jerboa volume create prometheus-data

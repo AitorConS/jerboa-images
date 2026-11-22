@@ -3,10 +3,6 @@
 [Vector](https://vector.dev/), the observability data pipeline, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `0.60.0` | `latest`, `0.60` |
-
 ```sh
 jerboa network create app
 jerboa run jerboa/vector --network app -p 127.0.0.1:8080:8080

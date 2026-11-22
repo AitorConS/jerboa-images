@@ -3,10 +3,6 @@
 [Pushgateway](https://github.com/prometheus/pushgateway), the Prometheus push acceptor for batch jobs, as a [Jerboa](https://github.com/AitorConS/jerboa)
 unikernel for linux/amd64 and linux/arm64.
 
-| Version | Also tagged |
-|---|---|
-| `1.11.4` | `latest`, `1.11`, `1` |
-
 ```sh
 jerboa network create app
 jerboa run jerboa/pushgateway --network app -p 127.0.0.1:9091:9091
