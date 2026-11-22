@@ -14,7 +14,17 @@ load_image() {
 	[ -f "${dir}/image.env" ] || { echo "no image ${name}" >&2; exit 1; }
 	# shellcheck disable=SC1090,SC1091
 	. "${dir}/image.env"
-	: "${VERSIONS:?}" "${PLATFORMS:?}" "${DESCRIPTION:?}" "${PORTS:?}"
+	: "${VERSIONS:?}" "${PLATFORMS:?}" "${DESCRIPTION:?}" "${CATEGORIES:?}" "${PORTS:?}"
+	# The hub's category slugs (src/categories.ts in jerboa-registry), at most 3.
+	local c n=0
+	for c in ${CATEGORIES//,/ }; do
+		n=$((n + 1))
+		case "${c}" in
+		databases | web-servers | networking | languages | message-queues | monitoring | security | machine-learning | developer-tools | examples) ;;
+		*) echo "${name}: unknown category ${c} (CATEGORIES=${CATEGORIES})" >&2; exit 1 ;;
+		esac
+	done
+	[ "${n}" -ge 1 ] && [ "${n}" -le 3 ] || { echo "${name}: CATEGORIES needs 1 to 3 slugs" >&2; exit 1; }
 	VERSION="${2:-${VERSIONS%% *}}"
 	case " ${VERSIONS} " in
 	*" ${VERSION} "*) ;;
